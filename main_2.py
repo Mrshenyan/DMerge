@@ -47,7 +47,7 @@ def CompareContent():
         if str in str2List:
             str2List.remove(str)
 
-    return listToString(str1List),listToString(str2List),listToString(commonList)
+    return listToString(str1List)##,listToString(str2List),listToString(commonList)
 
 #list转string
 def listToString(setList):
@@ -58,9 +58,12 @@ def listToString(setList):
             index = word.find("n")
             word = word[0:index]
         last_word += word + signStr
+    print(listofSet,"\n")
     listofSet.sort()
     listofSet.reverse()
-    print(listofSet,"\n")
+    len_listofset = len(listofSet)-1
+    arr = quickSort(listofSet, 0, len_listofset)
+    print(arr,"\n")
     return last_word
 
 ##去重
@@ -77,7 +80,33 @@ def Deduplication(str):
     return last_word
 
 
-str1, str2,str3 = CompareContent()
+def quickSort(arr, left, right):
+    if(left >= right):
+        return
+    index_i = left
+    index_j = right
+    desc = arr[left]
+    while index_i<index_j:
+        while index_i < index_j and len(arr[index_j])<len(desc):
+            index_j -= 1
+        if index_i < index_j:
+            arr[index_i] = arr[index_j]
+            index_i += 1
+        while index_i < index_j and len(arr[index_i])> len(desc):
+            index_i += 1
+        if index_i < index_j:
+            arr[index_j] = arr[index_i]
+            index_j -= 1
+    arr[index_i] = desc
+    quickSort(arr,left,index_i-1)
+    quickSort(arr,index_i+1,right)
+    return arr
+
+
+
+
+str1 = CompareContent()
+# str1, str2,str3 = CompareContent()
 outFile1.write("".join(str1))
-outFile2.write("".join(str2))
-outFile3.write("".join(str3))
+# outFile2.write("".join(str2))
+# outFile3.write("".join(str3))
